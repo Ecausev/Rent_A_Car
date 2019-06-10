@@ -1,0 +1,686 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RentACarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Cli_ID" />
+          </Key>
+          <Property Name="Cli_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="D_Licence_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DriverLicences">
+          <Key>
+            <PropertyRef Name="D_Licence_ID" />
+          </Key>
+          <Property Name="D_Licence_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LicenceNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Emp_ID" />
+          </Key>
+          <Property Name="Emp_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserRole" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LicencePlates">
+          <Key>
+            <PropertyRef Name="V_Licence_ID" />
+          </Key>
+          <Property Name="V_Licence_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LicencePlate" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rent">
+          <Key>
+            <PropertyRef Name="Rent_ID" />
+          </Key>
+          <Property Name="Rent_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Veh_ID" Type="int" Nullable="false" />
+          <Property Name="Emp_ID" Type="int" Nullable="false" />
+          <Property Name="Cli_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RentCalendar">
+          <Key>
+            <PropertyRef Name="Rent_ID" />
+          </Key>
+          <Property Name="Rent_ID" Type="int" Nullable="false" />
+          <Property Name="Start_Date" Type="date" Nullable="false" />
+          <Property Name="End_Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResCalendar">
+          <Key>
+            <PropertyRef Name="Res_ID" />
+          </Key>
+          <Property Name="Res_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Start_Date" Type="date" Nullable="false" />
+          <Property Name="End_Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Res_ID" />
+          </Key>
+          <Property Name="Res_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Veh_ID" Type="int" Nullable="false" />
+          <Property Name="Cli_ID" Type="int" Nullable="false" />
+          <Property Name="Emp_ID" Type="int" Nullable="false" />
+          <Property Name="Date_Created" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="Veh_ID" />
+          </Key>
+          <Property Name="Veh_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Brand" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Model" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="V_Licence_ID" Type="int" Nullable="false" />
+          <Property Name="Color" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Client_DriverLicences">
+          <End Role="DriverLicences" Type="Self.DriverLicences" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverLicences">
+              <PropertyRef Name="D_Licence_ID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="D_Licence_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rent_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Cli_ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="Cli_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rent_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Emp_ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="Emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rent_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="Veh_ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="Veh_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RentCalendar_Rent">
+          <End Role="Rent" Type="Self.Rent" Multiplicity="1" />
+          <End Role="RentCalendar" Type="Self.RentCalendar" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Rent">
+              <PropertyRef Name="Rent_ID" />
+            </Principal>
+            <Dependent Role="RentCalendar">
+              <PropertyRef Name="Rent_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Cli_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Cli_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Emp_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_ResCalendar">
+          <End Role="ResCalendar" Type="Self.ResCalendar" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ResCalendar">
+              <PropertyRef Name="Res_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Res_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="Veh_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Veh_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle_LicencePlates">
+          <End Role="LicencePlates" Type="Self.LicencePlates" Multiplicity="1" />
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LicencePlates">
+              <PropertyRef Name="V_Licence_ID" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="V_Licence_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RentACarModelStoreContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DriverLicences" EntityType="Self.DriverLicences" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LicencePlates" EntityType="Self.LicencePlates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rent" EntityType="Self.Rent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RentCalendar" EntityType="Self.RentCalendar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResCalendar" EntityType="Self.ResCalendar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Client_DriverLicences" Association="Self.FK_Client_DriverLicences">
+            <End Role="DriverLicences" EntitySet="DriverLicences" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rent_Client" Association="Self.FK_Rent_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rent_Employee" Association="Self.FK_Rent_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rent_Vehicle" Association="Self.FK_Rent_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RentCalendar_Rent" Association="Self.FK_RentCalendar_Rent">
+            <End Role="Rent" EntitySet="Rent" />
+            <End Role="RentCalendar" EntitySet="RentCalendar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Client" Association="Self.FK_Reservation_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Employee" Association="Self.FK_Reservation_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_ResCalendar" Association="Self.FK_Reservation_ResCalendar">
+            <End Role="ResCalendar" EntitySet="ResCalendar" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Vehicle" Association="Self.FK_Reservation_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle_LicencePlates" Association="Self.FK_Vehicle_LicencePlates">
+            <End Role="LicencePlates" EntitySet="LicencePlates" />
+            <End Role="Vehicle" EntitySet="Vehicle" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RentACarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Cli_ID" />
+          </Key>
+          <Property Name="Cli_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="D_Licence_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DriverLicences" Relationship="Self.FK_Client_DriverLicences" FromRole="Client" ToRole="DriverLicences" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK_Rent_Client" FromRole="Client" ToRole="Rent" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Reservation_Client" FromRole="Client" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="DriverLicences">
+          <Key>
+            <PropertyRef Name="D_Licence_ID" />
+          </Key>
+          <Property Name="D_Licence_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LicenceNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Client_DriverLicences" FromRole="DriverLicences" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Emp_ID" />
+          </Key>
+          <Property Name="Emp_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserRole" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK_Rent_Employee" FromRole="Employee" ToRole="Rent" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Reservation_Employee" FromRole="Employee" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="LicencePlates">
+          <Key>
+            <PropertyRef Name="V_Licence_ID" />
+          </Key>
+          <Property Name="V_Licence_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LicencePlate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK_Vehicle_LicencePlates" FromRole="LicencePlates" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="Rent">
+          <Key>
+            <PropertyRef Name="Rent_ID" />
+          </Key>
+          <Property Name="Rent_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Veh_ID" Type="Int32" Nullable="false" />
+          <Property Name="Emp_ID" Type="Int32" Nullable="false" />
+          <Property Name="Cli_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Rent_Client" FromRole="Rent" ToRole="Client" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Rent_Employee" FromRole="Rent" ToRole="Employee" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK_Rent_Vehicle" FromRole="Rent" ToRole="Vehicle" />
+          <NavigationProperty Name="RentCalendar" Relationship="Self.FK_RentCalendar_Rent" FromRole="Rent" ToRole="RentCalendar" />
+        </EntityType>
+        <EntityType Name="RentCalendar">
+          <Key>
+            <PropertyRef Name="Rent_ID" />
+          </Key>
+          <Property Name="Rent_ID" Type="Int32" Nullable="false" />
+          <Property Name="Start_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="End_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK_RentCalendar_Rent" FromRole="RentCalendar" ToRole="Rent" />
+        </EntityType>
+        <EntityType Name="ResCalendar">
+          <Key>
+            <PropertyRef Name="Res_ID" />
+          </Key>
+          <Property Name="Res_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Start_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="End_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Reservation_ResCalendar" FromRole="ResCalendar" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Res_ID" />
+          </Key>
+          <Property Name="Res_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Veh_ID" Type="Int32" Nullable="false" />
+          <Property Name="Cli_ID" Type="Int32" Nullable="false" />
+          <Property Name="Emp_ID" Type="Int32" Nullable="false" />
+          <Property Name="Date_Created" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Reservation_Client" FromRole="Reservation" ToRole="Client" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Reservation_Employee" FromRole="Reservation" ToRole="Employee" />
+          <NavigationProperty Name="ResCalendar" Relationship="Self.FK_Reservation_ResCalendar" FromRole="Reservation" ToRole="ResCalendar" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK_Reservation_Vehicle" FromRole="Reservation" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="Veh_ID" />
+          </Key>
+          <Property Name="Veh_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Brand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="V_Licence_ID" Type="Int32" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LicencePlates" Relationship="Self.FK_Vehicle_LicencePlates" FromRole="Vehicle" ToRole="LicencePlates" />
+          <NavigationProperty Name="Rent" Relationship="Self.FK_Rent_Vehicle" FromRole="Vehicle" ToRole="Rent" />
+          <NavigationProperty Name="Reservation" Relationship="Self.FK_Reservation_Vehicle" FromRole="Vehicle" ToRole="Reservation" />
+        </EntityType>
+        <Association Name="FK_Client_DriverLicences">
+          <End Role="DriverLicences" Type="Self.DriverLicences" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverLicences">
+              <PropertyRef Name="D_Licence_ID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="D_Licence_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rent_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Cli_ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="Cli_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Cli_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Cli_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rent_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Emp_ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="Emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Emp_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehicle_LicencePlates">
+          <End Role="LicencePlates" Type="Self.LicencePlates" Multiplicity="1" />
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LicencePlates">
+              <PropertyRef Name="V_Licence_ID" />
+            </Principal>
+            <Dependent Role="Vehicle">
+              <PropertyRef Name="V_Licence_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rent_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Rent" Type="Self.Rent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="Veh_ID" />
+            </Principal>
+            <Dependent Role="Rent">
+              <PropertyRef Name="Veh_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RentCalendar_Rent">
+          <End Role="Rent" Type="Self.Rent" Multiplicity="1" />
+          <End Role="RentCalendar" Type="Self.RentCalendar" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Rent">
+              <PropertyRef Name="Rent_ID" />
+            </Principal>
+            <Dependent Role="RentCalendar">
+              <PropertyRef Name="Rent_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_ResCalendar">
+          <End Role="ResCalendar" Type="Self.ResCalendar" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ResCalendar">
+              <PropertyRef Name="Res_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Res_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reservation_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="Veh_ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Veh_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RACEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="DriverLicences" EntityType="Self.DriverLicences" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="LicencePlates" EntityType="Self.LicencePlates" />
+          <EntitySet Name="Rent" EntityType="Self.Rent" />
+          <EntitySet Name="RentCalendar" EntityType="Self.RentCalendar" />
+          <EntitySet Name="ResCalendar" EntityType="Self.ResCalendar" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" />
+          <AssociationSet Name="FK_Client_DriverLicences" Association="Self.FK_Client_DriverLicences">
+            <End Role="DriverLicences" EntitySet="DriverLicences" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rent_Client" Association="Self.FK_Rent_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Client" Association="Self.FK_Reservation_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rent_Employee" Association="Self.FK_Rent_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Employee" Association="Self.FK_Reservation_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehicle_LicencePlates" Association="Self.FK_Vehicle_LicencePlates">
+            <End Role="LicencePlates" EntitySet="LicencePlates" />
+            <End Role="Vehicle" EntitySet="Vehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rent_Vehicle" Association="Self.FK_Rent_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Rent" EntitySet="Rent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RentCalendar_Rent" Association="Self.FK_RentCalendar_Rent">
+            <End Role="Rent" EntitySet="Rent" />
+            <End Role="RentCalendar" EntitySet="RentCalendar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_ResCalendar" Association="Self.FK_Reservation_ResCalendar">
+            <End Role="ResCalendar" EntitySet="ResCalendar" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reservation_Vehicle" Association="Self.FK_Reservation_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RentACarModelStoreContainer" CdmEntityContainer="RACEntities">
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="RentACarModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Cli_ID" ColumnName="Cli_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="D_Licence_ID" ColumnName="D_Licence_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DriverLicences">
+            <EntityTypeMapping TypeName="RentACarModel.DriverLicences">
+              <MappingFragment StoreEntitySet="DriverLicences">
+                <ScalarProperty Name="D_Licence_ID" ColumnName="D_Licence_ID" />
+                <ScalarProperty Name="LicenceNumber" ColumnName="LicenceNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="RentACarModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Emp_ID" ColumnName="Emp_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LicencePlates">
+            <EntityTypeMapping TypeName="RentACarModel.LicencePlates">
+              <MappingFragment StoreEntitySet="LicencePlates">
+                <ScalarProperty Name="V_Licence_ID" ColumnName="V_Licence_ID" />
+                <ScalarProperty Name="LicencePlate" ColumnName="LicencePlate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rent">
+            <EntityTypeMapping TypeName="RentACarModel.Rent">
+              <MappingFragment StoreEntitySet="Rent">
+                <ScalarProperty Name="Rent_ID" ColumnName="Rent_ID" />
+                <ScalarProperty Name="Veh_ID" ColumnName="Veh_ID" />
+                <ScalarProperty Name="Emp_ID" ColumnName="Emp_ID" />
+                <ScalarProperty Name="Cli_Id" ColumnName="Cli_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RentCalendar">
+            <EntityTypeMapping TypeName="RentACarModel.RentCalendar">
+              <MappingFragment StoreEntitySet="RentCalendar">
+                <ScalarProperty Name="Rent_ID" ColumnName="Rent_ID" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResCalendar">
+            <EntityTypeMapping TypeName="RentACarModel.ResCalendar">
+              <MappingFragment StoreEntitySet="ResCalendar">
+                <ScalarProperty Name="Res_ID" ColumnName="Res_ID" />
+                <ScalarProperty Name="Start_Date" ColumnName="Start_Date" />
+                <ScalarProperty Name="End_Date" ColumnName="End_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservation">
+            <EntityTypeMapping TypeName="RentACarModel.Reservation">
+              <MappingFragment StoreEntitySet="Reservation">
+                <ScalarProperty Name="Res_ID" ColumnName="Res_ID" />
+                <ScalarProperty Name="Veh_ID" ColumnName="Veh_ID" />
+                <ScalarProperty Name="Cli_ID" ColumnName="Cli_ID" />
+                <ScalarProperty Name="Emp_ID" ColumnName="Emp_ID" />
+                <ScalarProperty Name="Date_Created" ColumnName="Date_Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="RentACarModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicle">
+            <EntityTypeMapping TypeName="RentACarModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="Veh_ID" ColumnName="Veh_ID" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="V_Licence_ID" ColumnName="V_Licence_ID" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

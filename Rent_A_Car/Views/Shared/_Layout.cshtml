@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Scripts.Render("~/Content/Bootstrap/css")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body >
+    @RenderBody()
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class=" border-right sidebar-color" id="sidebar-wrapper">
+            <div class="sidebar-heading">XYZ RENTACAR</div>
+            <div class="list-group list-group-flush " >
+                <a href="#" class="list-group-item list-group-item-action ">Pregled</a>
+                <a href="#" class="list-group-item list-group-item-action ">Flota</a>
+                <a href="#" class="list-group-item list-group-item-action ">Rezervacije</a>
+                <a href="#" class="list-group-item list-group-item-action ">Najam</a>
+                <a href="#" class="list-group-item list-group-item-action ">Profil</a>
+                <a href="#" class="list-group-item list-group-item-action ">Odjava</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="y">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">teataetaeta
+                    </ul>
+                </div>
+            </nav>
+            <div class="container-fluid">
+                <h1 class="mt-4">Simple Sidebar</h1>
+                <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
+                <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- Bootstrap core JavaScript -->
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });</script>
+</body>
+
+
+        
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/simple-sidebar.css")
+    @Scripts.Render("~/bundles/bootstrap.css")
+
+</html>

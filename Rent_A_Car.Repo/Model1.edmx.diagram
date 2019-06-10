@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e327d7517bdb4df3a7e437b661ab8a5a" Name="Diagram1">
+        <EntityTypeShape EntityType="RentACarModel.Client" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentACarModel.DriverLicences" Width="1.5" PointX="1.5" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentACarModel.Employee" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentACarModel.LicencePlates" Width="1.5" PointX="1.5" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentACarModel.Rent" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentACarModel.RentCalendar" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentACarModel.ResCalendar" Width="1.5" PointX="3.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentACarModel.Reservation" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentACarModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RentACarModel.Vehicle" Width="1.5" PointX="0.75" PointY="12.875" IsExpanded="true" />
+        <AssociationConnector Association="RentACarModel.FK_Client_DriverLicences" ManuallyRouted="false" />
+        <AssociationConnector Association="RentACarModel.FK_Rent_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="RentACarModel.FK_Reservation_Client" ManuallyRouted="false" />
+        <AssociationConnector Association="RentACarModel.FK_Rent_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="RentACarModel.FK_Reservation_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="RentACarModel.FK_Vehicle_LicencePlates" ManuallyRouted="false" />
+        <AssociationConnector Association="RentACarModel.FK_Rent_Vehicle" ManuallyRouted="false" />
+        <AssociationConnector Association="RentACarModel.FK_RentCalendar_Rent" ManuallyRouted="false" />
+        <AssociationConnector Association="RentACarModel.FK_Reservation_ResCalendar" ManuallyRouted="false" />
+        <AssociationConnector Association="RentACarModel.FK_Reservation_Vehicle" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
