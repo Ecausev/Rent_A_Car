@@ -10,17 +10,13 @@ namespace Rent_A_Car.Repo
     public interface IGenericRepository<TEntity> where TEntity : class
     {
 
-        IEnumerable<TEntity> GetAll();
-
-        TEntity GetById(object id);
-
-        void Insert(TEntity obj);
-
-        void Update(TEntity obj);
-
-        void Delete(object id);
-
+        IEnumerable<TEntity> FindAll();
+        IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
+        TEntity Add(TEntity entity);
+        TEntity Delete(TEntity entity);
+        void Edit(TEntity entity);
         void Save();
 
     }
 }
+ 

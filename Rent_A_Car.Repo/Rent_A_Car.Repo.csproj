@@ -95,6 +95,7 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Vehicle.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -126,6 +127,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rent_A_Car.Model\Rent_A_Car.Model.csproj">
+      <Project>{a20afd86-1e00-4539-90af-e301eea54598}</Project>
+      <Name>Rent_A_Car.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

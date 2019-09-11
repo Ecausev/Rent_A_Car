@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rent_A_Car.Service
+namespace Rent_A_Car.Repo.UnitOfWork
 {
-    public class Class1
+    public class UnitOfWork :IDisposable
     {
+        private GenericRepository<>
     }
 }

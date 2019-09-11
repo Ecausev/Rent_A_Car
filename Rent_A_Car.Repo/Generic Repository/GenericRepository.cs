@@ -8,39 +8,49 @@ using System.Threading.Tasks;
 
 namespace Rent_A_Car.Repo
 {
-    public class GenericRepository<TEntity> : IGenericRepository<> where TEntity : class
+    public abstract class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        protected readonly DbContext Context;
+        protected DbContext _entities;
+        protected readonly IDbSet<TEntity> _dbset;
 
-        
+
         public GenericRepository(DbContext context)
         {
-            Context = context;
+            _entities = context;
+            _dbset = context.Set<TEntity>();
 
         }
-        public void Add(TEntity entity)
+        public virtual IEnumerable<TEntity> FindAll()
         {
-            
+
+            return _dbset.AsEnumerable<TEntity>();
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        public IEnumerable<TEntity> FindBy(System.Linq.Expressions.Expression<Func<TEntity, bool>> predicate)
         {
-           
+
+            IEnumerable<TEntity> query = _dbset.Where(predicate).AsEnumerable();
+            return query;
         }
 
-        public TEntity Get(int id)
+        public virtual TEntity Add(TEntity entity)
         {
-            
+            return _dbset.Add(entity);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public virtual TEntity Delete(TEntity entity)
         {
-            
+            return _dbset.Remove(entity);
         }
 
-        public void Remove(TEntity entity)
+        public virtual void Edit(TEntity entity)
         {
-           
+            _entities.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public virtual void Save()
+        {
+            _entities.SaveChanges();
         }
     }
 }

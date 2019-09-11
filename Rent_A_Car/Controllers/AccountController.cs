@@ -9,7 +9,7 @@ namespace Rent_A_Car.Controllers
     public class AccountController : Controller
     {
         // GET: Account
-        public ActionResult Login()
+        public ActionResult LoginView()
         {
             return View();
         }

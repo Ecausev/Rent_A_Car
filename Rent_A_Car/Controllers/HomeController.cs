@@ -15,15 +15,12 @@ namespace Rent_A_Car.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult CreateContract()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
